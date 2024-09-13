@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { ComponentBase } from './lib/components/component-base';
+import { ToastService } from './lib/components/toast/toast.service';
+import { Component, Injector } from '@angular/core';
+import { LibHelperService } from './modules/shared/services/lib-helper.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: ` <router-outlet></router-outlet> `,
 })
 export class AppComponent {
-  title = 'PermisisonDemoFE';
+  title = 'PermissionDemo';
 }

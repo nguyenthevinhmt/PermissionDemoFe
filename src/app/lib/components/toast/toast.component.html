@@ -1,0 +1,37 @@
+<!-- <div class="toast-container">
+  <div [ngClass]="getClassForType(toastMessages.type)" class="toast-message">
+    <div class="flex align-items-center">
+      <i class="pi pi-check mr-3 text-2xl"></i>
+      <p class="text-sm">{{ toastMessage.text }}</p>
+    </div>
+  </div>
+</div> -->
+<!-- <div class="toast-container">
+  <div
+    *ngFor="let message of toastMessages"
+    class="toast"
+    [ngClass]="message.severity"
+  >
+    <div class="flex align-items-center">
+      <i class="pi pi-check mr-3 text-2xl"></i>
+      <p class="text-sm">{{ toastMessage.text }}</p>
+    </div>
+  </div>
+</div> -->
+<div class="toast-container">
+  <div
+    *ngFor="let message of toastMessages"
+    class="toast"
+    [ngClass]="message.severity"
+  >
+    <i class="{{ icon[message.severity] }} mr-3 text-base"></i>
+    <div>
+      <div class="toast-header">
+        <span class="font-medium text-sm">{{ message.summary }}</span>
+      </div>
+      <div class="toast-detail" *ngIf="message.detail">
+        {{ message.detail }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+.form-wrapper {
+  .form-style {
+    .field {
+      margin-bottom: 1rem;
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        &.ng-dirty.ng-invalid {
+          border: 1px solid red !important;
+        }
+        &:focus-visible {
+          outline: #007bff 1px auto !important;
+        }
+      }
+
+      p-inputnumber {
+        width: 100%;
+        span.p-inputnumber {
+          width: 100%;
+        }
+      }
+
+      p-calendar {
+        padding-left: 0;
+        padding-right: 0;
+        span.p-calendar {
+          width: 100%;
+        }
+      }
+
+      p-password,
+      .p-password {
+        width: 100%;
+      }
+    }
+  }
+  .title-header {
+    color: #101828;
+  }
+}
+
+.tag-active {
+  background-color: #49cc90;
+}
+
+.tag-deactive {
+  background-color: #f93e3e;
+}
+
+.required-field {
+  color: #f93e3e;
+}

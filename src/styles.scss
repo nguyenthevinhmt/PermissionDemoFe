@@ -1,1 +1,74 @@
 /* You can add global styles to this file, and also import other style files */
+@import "/node_modules/primeflex/primeflex.css";
+@import "/node_modules/primeicons/primeicons.css";
+@import "/src/assets/sass/_button.scss";
+@import "/src/assets/sass/general.scss";
+@import "/src/assets/sass/_input.scss";
+@import "@angular/cdk/overlay-prebuilt.css";
+
+// @use "@angular/cdk" as cdk;
+
+// @include cdk.overlay();
+
+body {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100vh;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+}
+
+// Kích thước phông chữ cho các thẻ heading
+$font-size-h1: 2em; // Khoảng 32px
+$font-size-h2: 1.5em; // Khoảng 24px
+$font-size-h3: 1.17em; // Khoảng 20px
+$font-size-h4: 1em; // Khoảng 16px
+$font-size-h5: 0.83em; // Khoảng 13px
+$font-size-h6: 0.67em; // Khoảng 11px
+
+// Áp dụng kích thước phông chữ cho các thẻ heading
+h1 {
+  font-size: $font-size-h1;
+}
+
+h2 {
+  font-size: $font-size-h2;
+}
+
+h3 {
+  font-size: $font-size-h3;
+}
+
+h4 {
+  font-size: $font-size-h4;
+}
+
+h5 {
+  font-size: $font-size-h5;
+}
+
+h6 {
+  font-size: $font-size-h6;
+}
+
+p,
+span,
+li {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+}
+
+ul,
+li {
+  list-style: none;
+}

@@ -1,0 +1,82 @@
+<div class="page-wrapper">
+  <div class="page-layout">
+    <!-- top bar -->
+    <div class="page-header">
+      <div class="logo">
+        <img [src]="logoImage" alt="logo" width="150" />
+      </div>
+      <div class="profile"></div>
+    </div>
+    <!-- left side bar -->
+    <div class="flex h-full">
+      <div class="page-side-bar" [ngClass]="{ 'collapse-sidebar': isCollapse }">
+        <div>Menu</div>
+        <ul>
+          <ng-container *ngFor="let item of menuItems">
+            <li
+              (click)="item?.urlLink && changeMenuItem(item?.urlLink)"
+              class="menu-item"
+              *ngIf="item?.isShow"
+            >
+              <div class="flex align-items-center justify-content-center">
+                <span *ngIf="item.icon" class="pr-3"
+                  ><i [class]="item.icon"></i
+                ></span>
+                <span class="item-label">{{ item.label }}</span>
+              </div>
+              <span
+                class="flex align-items-center justify-content-center"
+                *ngIf="item?.children?.length"
+              >
+                <i class="pi pi-angle-down"></i>
+              </span>
+            </li>
+            <ng-container *ngIf="item?.children?.length">
+              <ng-container
+                *ngTemplateOutlet="
+                  menuItem;
+                  context: { $implicit: item.children }
+                "
+              ></ng-container>
+            </ng-container>
+          </ng-container>
+        </ul>
+      </div>
+
+      <div class="page-content">
+        <app-toast></app-toast>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #menuItem let-item>
+  <ul>
+    <ng-container *ngFor="let item of item">
+      <li
+        (click)="item?.urlLink && changeMenuItem(item?.urlLink)"
+        class="menu-item block flex"
+        *ngIf="item?.isShow"
+      >
+        <div class="flex align-items-center">
+          <span *ngIf="item.icon" class="pr-3"
+            ><i [class]="item.icon"></i
+          ></span>
+          <span *ngIf="!item.icon" class="pr-3"
+            ><i [class]="item.icon"></i
+          ></span>
+          <span class="item-label pl-3">{{ item.label }}</span>
+        </div>
+        <span class="flex align-items-center" *ngIf="item?.children?.length">
+          <i class="pi pi-angle-down"></i>
+        </span>
+      </li>
+      <ng-container *ngIf="item?.children?.length">
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { $implicit: item.children }"
+        ></ng-container>
+      </ng-container>
+    </ng-container>
+  </ul>
+</ng-template>

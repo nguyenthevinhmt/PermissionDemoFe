@@ -1,0 +1,115 @@
+<div class="dialog-wrapper">
+  <div class="header flex justify-content-between align-items-center">
+    <h2>{{ dataDialog?.header }}</h2>
+    <div (click)="close()"><i class="pi pi-times"></i></div>
+  </div>
+  <div class="p-1rem dialog-body">
+    <form
+      class="form-wrapper p-1rem"
+      [formGroup]="postForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="form-style grid col-12">
+        <div class="field col-12 pb-0 mb-0">
+          <label class="block"
+            >Tên quyền <span class="required-field"> *</span></label
+          >
+          <input
+            libInput
+            formControlName="name"
+            [ngClass]="{
+              'ng-invalid ng-dirty':
+                postForm?.get('name')?.invalid && postForm?.get('name')?.touched
+            }"
+          />
+          <small *ngIf="isInvalidMessage(postForm, 'name')" class="p-error">
+            {{ postForm.get("name").getError("errorMessage") }}
+          </small>
+        </div>
+      </div>
+    </form>
+    <ul class="ul-parent m-0 mt-2">
+      <ng-container *ngFor="let node of permissionData">
+        <!-- parent -->
+        <li>
+          <div class="flex align-items-center">
+            <div
+              (click)="toggleCollapse(node)"
+              class="flex align-items-center inline-block cursor-pointer pr-1 collapse-icon-wrapper"
+            >
+              <ng-container *ngIf="node.children.length">
+                <i class="pi pi-chevron-right" *ngIf="node.collapsed"></i>
+                <i *ngIf="!node.collapsed" class="pi pi-chevron-down"> </i>
+              </ng-container>
+            </div>
+            <input
+              type="checkbox"
+              [checked]="node.checked"
+              [indeterminate]="node.indeterminate"
+              (change)="onCheckChange(node, $event.target.checked)"
+              (contextmenu)="onRightClick(node, $event)"
+            />
+            <label>{{ node.permissionLabel }}</label>
+          </div>
+
+          <!-- child? -->
+          <ul
+            *ngIf="node.children && node.children.length > 0 && !node.collapsed"
+            class="block pl-25px"
+          >
+            <ng-container
+              *ngTemplateOutlet="
+                recursiveList;
+                context: { $implicit: node.children }
+              "
+            ></ng-container>
+          </ul>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <div class="footer flex justify-content-end">
+    <button type="button" libButton class="btn-cancel" (click)="close()">
+      Hủy
+    </button>
+    <button (click)="onSubmit()" libButton>Lưu</button>
+  </div>
+</div>
+
+<ng-template #recursiveList let-nodes>
+  <ng-container *ngFor="let node of nodes">
+    <li>
+      <div class="flex align-items-center">
+        <div
+          (click)="toggleCollapse(node)"
+          class="flex align-items-center inline-block cursor-pointer pr-1 collapse-icon-wrapper"
+        >
+          <ng-container *ngIf="node.children.length">
+            <i class="pi pi-chevron-right" *ngIf="node.collapsed"></i>
+            <i *ngIf="!node.collapsed" class="pi pi-chevron-down"> </i>
+          </ng-container>
+        </div>
+        <input
+          type="checkbox"
+          [checked]="node.checked"
+          [indeterminate]="node.indeterminate"
+          (change)="onCheckChange(node, $event.target.checked)"
+          (contextmenu)="onRightClick(node, $event)"
+        />
+        <label>{{ node.permissionLabel }}</label>
+      </div>
+      <ul
+        *ngIf="node.children && node.children.length > 0 && !node.collapsed"
+        class="pl-25px"
+      >
+        <ng-container
+          *ngTemplateOutlet="
+            recursiveList;
+            context: { $implicit: node.children }
+          "
+        ></ng-container>
+      </ul>
+    </li>
+  </ng-container>
+</ng-template>

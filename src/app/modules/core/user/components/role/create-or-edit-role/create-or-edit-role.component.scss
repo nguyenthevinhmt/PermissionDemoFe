@@ -1,0 +1,68 @@
+.collapse-icon-wrapper {
+  width: 20px;
+  height: 20px;
+}
+
+.pl-25px {
+  padding-left: 25px !important;
+}
+
+.ul-parent {
+  padding-left: 0.25rem !important;
+}
+
+.p-error {
+  color: red;
+}
+
+.dialog-wrapper {
+  background-color: #fff;
+  width: 600px;
+  height: 100%;
+  border-radius: 8px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  .header {
+    border-bottom: 1px solid #ccc;
+    // padding-bottom: 20px;
+    height: 60px;
+    padding: 0.5rem 1rem;
+  }
+  .dialog-body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.75rem 1.35rem;
+    position: absolute;
+    right: 0;
+    top: 76px;
+    left: 0;
+    bottom: 60px;
+  }
+
+  .footer {
+    border-top: 1px solid #ccc;
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    button {
+      margin: 10px 5px 10px 5px;
+      &.btn-cancel {
+        background-color: #fafafa;
+        color: #2196f3;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .form-wrapper {
+    height: 100px;
+  }
+}
