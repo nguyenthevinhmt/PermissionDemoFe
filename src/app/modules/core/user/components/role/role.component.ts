@@ -77,22 +77,26 @@ export class RoleComponent extends ComponentBase {
     this.action = data.map((item) => {
       const status = item?.status;
       const actions = [];
-      actions.push({
-        data: item,
-        label: 'Thông tin chi tiết',
-        icon: 'pi pi-info-circle',
-        command: ($event) => {
-          this.detail($event.item.data);
-        },
-      });
-      actions.push({
-        data: item,
-        label: status == 1 ? 'Hủy kích hoạt' : 'Kích hoạt',
-        icon: status == 2 ? 'pi pi-lock' : 'pi pi-unlock',
-        command: ($event) => {
-          this.changeStatus($event.item.data);
-        },
-      });
+      if (this.isGranted(this.PermissionConst.ButtonDetailRole)) {
+        actions.push({
+          data: item,
+          label: 'Thông tin chi tiết',
+          icon: 'pi pi-info-circle',
+          command: ($event) => {
+            this.detail($event.item.data);
+          },
+        });
+      }
+      if (this.isGranted(this.PermissionConst.ButtonUpdateStatusRole)) {
+        actions.push({
+          data: item,
+          label: status == 1 ? 'Hủy kích hoạt' : 'Kích hoạt',
+          icon: status == 2 ? 'pi pi-lock' : 'pi pi-unlock',
+          command: ($event) => {
+            this.changeStatus($event.item.data);
+          },
+        });
+      }
       return actions;
     });
   }

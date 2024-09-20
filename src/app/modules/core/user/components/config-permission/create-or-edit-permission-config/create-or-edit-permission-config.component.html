@@ -1,0 +1,118 @@
+<div class="dialog-wrapper">
+  <div class="header flex justify-content-between align-items-center">
+    <h2>Thêm mới</h2>
+    <div (click)="close()"><i class="pi pi-times"></i></div>
+  </div>
+  <div class="p-1rem dialog-body">
+    <form
+      class="form-wrapper p-1rem"
+      [formGroup]="postForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="form-style grid col-12">
+        <div class="field col-12 pt-0 pb-0 m-0">
+            <h2 class="my-0 ">Thông tin API</h2>
+        </div>
+        <div class="field col-6 pb-0 mb-0">
+          <label class="block">Path API <span class="required-field"> * </span></label>
+          <input
+            libInput
+            formControlName="path"
+            [ngClass]="{'ng-invalid ng-dirty': postForm?.get('path')?.invalid && postForm?.get('path')?.touched}"
+          />
+          <small *ngIf="isInvalidMessage(postForm, 'path')" class="p-error">
+            {{ postForm.get("path").getError("errorMessage") }}
+          </small>
+        </div>
+        <div class="field col-6 pb-0 mb-0">
+          <label class="block">Mô tả chức năng API <span class="required-field"> * </span></label>
+          <input
+            libInput
+            formControlName="description"
+            [ngClass]="{'ng-invalid ng-dirty': postForm?.get('description')?.invalid && postForm?.get('description')?.touched}"
+          />
+          <small *ngIf="isInvalidMessage(postForm, 'description')" class="p-error">
+            {{ postForm.get("description").getError("errorMessage") }}
+          </small>
+        </div>
+        <div class="field col-12 pt-0 pb-0 m-0 mt-3">
+            <div class="flex justify-content-between">
+                <h2 class="mb-0">Cài đặt quyền truy cập</h2>
+                <button libButton type="button" (click)="addTerm()" *ngIf="true">
+                    <i class="pi pi-plus pr-2 font-normal text-xs"></i>Thêm quyền truy cập
+                </button>
+            </div>
+        </div>
+        <div class="ml-2">
+            <small *ngIf="!formRawValue.permissionKeys?.length" class="p-error">
+                {{ postForm.get("permissionKeys").getError("errorMessage") }}
+            </small>
+        </div>
+       <div class="grid w-full flex flex-columns justify-content-center mt-4">
+         <ng-container formArrayName="permissionKeys">
+            <ng-container *ngFor="let permissionKey of permissionKeys.controls; let i = index">
+                <div class="permission-key-card grid w-full" [formGroup]="permissionKey">
+                    <div class="field col-3 mb-0">
+                        <label class="block">Key Permission<span class="required-field"> * </span></label>
+                        <input
+                            pInputText
+                            formControlName="permissionKey"
+                            [ngClass]="{'ng-invalid ng-dirty': permissionKey?.get('permissionKey')?.invalid && permissionKey?.get('permissionKey')?.touched}"
+                        />
+                        <small *ngIf="isInvalidMessage(permissionKey, 'permissionKey')" class="p-error">
+                            {{ permissionKey.get("permissionKey").getError("errorMessage") }}
+                        </small>
+                    </div>
+                    <div class="field col-3  mb-0">
+                        <label class="block">Tên quyền truy cập<span class="required-field"> * </span></label>
+                        <input
+                            libInput
+                            formControlName="permissionLabel"
+                            [ngClass]="{'ng-invalid ng-dirty': permissionKey?.get('permissionLabel')?.invalid && permissionKey?.get('permissionLabel')?.touched}"
+                        />
+                        <small *ngIf="isInvalidMessage(permissionKey, 'permissionLabel')" class="p-error">
+                            {{ permissionKey.get("permissionLabel").getError("errorMessage") }}
+                        </small>
+                    </div>
+                    <div class="field col-3  mb-0">
+                        <label class="block">Module cha</label>
+                        <p-treeSelect 
+                            [options]="permissionTree" 
+                            formControlName="parentId"
+                            containerStyleClass="w-full" 
+                            [showClear]="true"
+                            appendTo="body"
+                            />
+                            <!-- class="md:w-20rem w-full custom-disabled"  -->
+                        <small *ngIf="isInvalidMessage(permissionKey, 'parentId')" class="p-error">
+                            {{ permissionKey.get("parentId").getError("errorMessage") }}
+                        </small>
+                    </div>
+                    <div class="field col-3 mb-0">
+                        <label class="block">Thứ tự sắp xếp<span class="required-field"> * </span></label>
+                        <input
+                            libInput
+                            formControlName="orderPriority"
+                            [ngClass]="{'ng-invalid ng-dirty': permissionKey?.get('orderPriority')?.invalid && permissionKey?.get('orderPriority')?.touched}"
+                        />
+                        <small *ngIf="isInvalidMessage(permissionKey, 'orderPriority')" class="p-error">
+                            {{ permissionKey.get("orderPriority").getError("errorMessage") }}
+                        </small>
+                    </div>
+
+                    <span class="remove-button" (click)="removeTerm(i)"><i class="pi pi-times"></i></span>
+                </div>
+            </ng-container>
+        </ng-container>
+       </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="footer flex justify-content-end">
+    <button type="button" libButton class="btn-cancel" (click)="close()">
+      Hủy
+    </button>
+    <button (click)="onSubmit()" libButton>Lưu</button>
+  </div>
+</div>

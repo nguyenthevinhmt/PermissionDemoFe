@@ -1,54 +1,36 @@
 <app-toast></app-toast>
 <div class="w-full flex justify-content-end">
-  <button
-    libButton
-    (click)="create()"
-    *ngIf="isGranted([this.PermissionConst.ButtonCreateRole])"
-  >
+  <button libButton (click)="create()" *ngIf="true">
     <i class="pi pi-plus pr-2 font-normal text-xs"></i>Thêm mới
   </button>
 </div>
 
-<div
-  class="table-container"
-  *ngIf="isGranted([this.PermissionConst.TableRole])"
->
+<div class="table-container" *ngIf="true">
   <table>
     <thead>
       <tr>
         <th class="id-col">ID</th>
-        <th class="col-name">Tên quyền</th>
-        <th class="col-status">Trạng thái</th>
+        <th class="col-name">Path</th>
+        <th class="col-name">Mô tả</th>
         <th class="action-col text-center"><i class="pi pi-cog"></i></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of row; let i = index">
+      <tr *ngFor="let item of rows; let i = index">
         <td class="id-col">{{ item.id }}</td>
-        <td class="col-name">{{ item.name }}</td>
-        <td class="col-status">
-          <span
-            [ngClass]="{
-              'tag-status': true,
-              'tag-active': item.status === 1,
-              'tag-deactive': item.status === 2
-            }"
-          >
-            {{ RoleConst.getStatusInfo(item.status)?.name }}
-          </span>
-        </td>
+        <td class="col-name">{{ item.path }}</td>
+        <td class="col-name">{{ item.description }}</td>
         <td class="action-col text-center">
-          <!-- *ngIf="action[i]?.length" -->
           <ng-container>
             <!-- Three dot icon -->
             <i
               class="pi pi-ellipsis-v"
-              (click)="action[i]?.length && toggleDropdown(i)"
+              (click)="listAction[i]?.length && toggleDropdown(i)"
             ></i>
 
             <!-- Dropdown menu, only show when clicked -->
             <ul *ngIf="activeDropdown === i" class="dropdown-menu">
-              <ng-container *ngFor="let item of action[i]">
+              <ng-container *ngFor="let item of listAction[i]">
                 <li class="text-left" (click)="item.command({ item: item })">
                   <i [class]="item?.icon + ' ' + 'pr-1'"></i>
                   {{ item.label }}

@@ -68,22 +68,27 @@ export class HandleInterceptor implements HttpInterceptor {
       }),
       catchError((err) => {
         if (err instanceof HttpErrorResponse) {
-          if (err?.status === EErrorCode.Unauthorized && err.message) {
+          if (err?.status === EErrorCode.Unauthorized) {
+            console.log(111, err);
             this._toastService.show({
               severity: 'error',
               summary: 'Tài khoản không có quyền truy cập!',
             });
-            // window.location.href = '/';
-            // return;
-          } else if (err?.status === EErrorCode.Unauthorized && !err.message) {
-            this._toastService.show({
-              severity: 'error',
-              summary: 'Hết hạn đăng nhập, vui lòng đăng nhập lại',
-            });
             this._tokenService.deleteAccessToken();
             window.location.href = '/auth/login';
+            // window.location.href = '/';
             // return;
-          } else {
+          }
+          // else if (err?.status === EErrorCode.Unauthorized && !err.message) {
+          //   this._toastService.show({
+          //     severity: 'error',
+          //     summary: 'Hết hạn đăng nhập, vui lòng đăng nhập lại',
+          //   });
+          //   this._tokenService.deleteAccessToken();
+          //   window.location.href = '/auth/login';
+          //   // return;
+          // }
+          else {
             let message: string = '';
             let statusCode: number = err?.status;
             switch (statusCode) {

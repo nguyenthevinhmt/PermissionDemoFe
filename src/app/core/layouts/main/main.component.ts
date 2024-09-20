@@ -41,9 +41,17 @@ export class MainComponent extends ComponentBase {
         children: [
           {
             // icon: 'pi pi-cog',
-            label: 'Cài đặt phân quyền',
+            label: 'Cài đặt nhóm quyền',
             isShow: this.isGranted(this.PermissionConst.MenuRoleManager),
             urlLink: 'user/role',
+            collapse: false,
+            children: [],
+          },
+          {
+            // icon: 'pi pi-cog',
+            label: 'Cài đặt phân quyền api',
+            isShow: true,
+            urlLink: 'user/permission-config',
             collapse: false,
             children: [],
           },

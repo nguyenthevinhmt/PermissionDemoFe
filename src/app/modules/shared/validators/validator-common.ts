@@ -27,3 +27,14 @@ export function required(
     return null;
   };
 }
+
+export function requiredArray(messageError?: string): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: string } | null => {
+    if (Array.isArray(control?.value) && control?.value?.length === 0) {
+      return {
+        errorMessage: messageError || 'Vui lòng chọn ít nhất 1 phần tử!',
+      };
+    }
+    return null;
+  };
+}

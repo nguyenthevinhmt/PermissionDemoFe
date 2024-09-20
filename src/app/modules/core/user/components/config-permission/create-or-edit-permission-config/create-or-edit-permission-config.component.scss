@@ -1,0 +1,108 @@
+.collapse-icon-wrapper {
+  width: 20px;
+  height: 20px;
+}
+
+.pl-25px {
+  padding-left: 25px !important;
+}
+
+.ul-parent {
+  padding-left: 0.25rem !important;
+}
+
+.p-error {
+  color: red;
+}
+
+.dialog-wrapper {
+  background-color: #fff;
+  width: 1200px;
+  height: 75%;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .header {
+    border-bottom: 1px solid #ccc;
+    // padding-bottom: 20px;
+    height: 60px;
+    padding: 0.5rem 1rem;
+  }
+  .dialog-body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.75rem 1.35rem;
+    position: absolute;
+    right: 0;
+    top: 76px;
+    left: 0;
+    bottom: 60px;
+  }
+
+  .footer {
+    border-top: 1px solid #ccc;
+    height: 60px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    button {
+      margin: 10px 5px 10px 5px;
+      &.btn-cancel {
+        background-color: #fafafa;
+        color: #2188C9;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .form-wrapper {
+    height: 100px;
+  }
+
+  .p-treenode-label{
+    font-size: 13px;
+  }
+  .p-treeselect{
+    height: 40px;
+    align-items: center;
+    border-radius: 3px;
+  }
+
+  .p-tree-selectable{
+    padding: 5px;
+  }
+  .p-treenode-content {
+    padding: 0px;
+  }
+}
+
+.permission-key-card {
+  // background-color: #fafafa !important;
+  padding: 0.5rem;// 0.5rem 1.5rem 0.5rem;
+  border-radius: 8px;
+  position: relative;
+
+  .remove-button{
+    position: absolute;
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    padding: 10px;
+    right: 0;
+    top: 0;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    i{
+      font-size: 12px;
+    }
+
+  }
+}

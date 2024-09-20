@@ -13,7 +13,7 @@ export class RoleService {
   constructor(private http: HttpClient) {}
 
   getPermissions(): Observable<any> {
-    return this.http.get(`${this.api}/permission/find-all`);
+    return this.http.get(`${this.api}/permission/get-permission-tree`);
   }
 
   getRole(): Observable<IResponseList<any>> {

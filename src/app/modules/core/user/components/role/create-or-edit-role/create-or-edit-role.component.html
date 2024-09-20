@@ -73,7 +73,7 @@
     <button type="button" libButton class="btn-cancel" (click)="close()">
       Hủy
     </button>
-    <button (click)="onSubmit()" libButton>Lưu</button>
+    <button (click)="onSubmit()" libButton *ngIf="isShowSaveButton">Lưu</button>
   </div>
 </div>
 

@@ -7,6 +7,7 @@ export class PermissionConst {
   public static ButtonCreateRole = 'button_create_role';
   public static TableRole = 'table_role';
   public static ButtonDetailRole = 'button_detail_role';
+  public static ButtonUpdateStatusRole = 'button_update_status_role';
   public static ButtonUpdateRole = 'button_update_role';
   //user
   public static MenuUserAccount = 'menu_user_account';

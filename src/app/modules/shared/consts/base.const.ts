@@ -10,6 +10,7 @@ export class Authorization {
 
 export class BaseConsts {
   public static messageError = 'Có lỗi xảy ra, vui lòng thử lại sau';
+  public static formError = 'Vui lòng kiểm tra các trường thông tin';
   public static requiredError = 'Trường bắt buộc nhập';
 }
 

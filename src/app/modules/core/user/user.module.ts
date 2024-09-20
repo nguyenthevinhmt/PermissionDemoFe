@@ -9,9 +9,18 @@ import { LibModule } from 'src/app/lib/lib.module';
 import { LibHelperService } from '../../shared/services/lib-helper.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '@angular/cdk/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { TreeSelectModule } from 'primeng/treeselect';
+import { ConfigPermissionComponent } from './components/config-permission/config-permission.component';
+import { CreateOrEditPermissionConfigComponent } from './components/config-permission/create-or-edit-permission-config/create-or-edit-permission-config.component';
 
 @NgModule({
-  declarations: [RoleComponent, CreateOrEditRoleComponent],
+  declarations: [
+    RoleComponent,
+    CreateOrEditRoleComponent,
+    ConfigPermissionComponent,
+    CreateOrEditPermissionConfigComponent,
+  ],
   imports: [
     CommonModule,
     UserRoutingModule,
@@ -19,6 +28,8 @@ import { DialogModule } from '@angular/cdk/dialog';
     LibModule,
     ReactiveFormsModule,
     DialogModule,
+    InputTextModule,
+    TreeSelectModule
   ],
   providers: [RoleService, LibHelperService],
 })
