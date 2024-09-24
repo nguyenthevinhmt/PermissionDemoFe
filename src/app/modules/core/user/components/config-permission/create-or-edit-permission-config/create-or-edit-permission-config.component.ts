@@ -1,12 +1,12 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ComponentBase } from 'src/app/lib/components/component-base';
 import { BaseConsts } from 'src/app/modules/shared/consts/base.const';
 import { required, requiredArray } from 'src/app/modules/shared/validators/validator-common';
 import { KeyPermissionService } from '../../../services/key-permission.service';
 import { RoleService } from '../../../services/role.service';
+import { forkJoin, Observable } from 'rxjs';
 @Component({
   selector: 'app-create-or-edit-permission-config',
   templateUrl: './create-or-edit-permission-config.component.html',
@@ -30,16 +30,26 @@ export class CreateOrEditPermissionConfigComponent extends ComponentBase {
   permissionTree = [];
 
   ngOnInit() {
+    let apis : Observable<any>[] = [this._roleService.getPermissions()];
     this.getPermissionTree();
     this.dataDialog = this.dialogRef.config?.data;
     this.setForm();
     if(this.dataDialog?.id) {
-      this.getDetail();
+      apis[1] = this._keyPermissionService.getById(this.dataDialog?.id)
+      forkJoin(apis).subscribe(([treeData, detailData]) => {
+        if(this.checkStatusResponse(treeData)) {
+          this.handleTree(treeData);
+        }
+        if(this.checkStatusResponse(detailData)) {
+          this.permissionApiInfo = detailData?.data;
+          this.setForm();
+        }
+      })
+    }
+    else{
+      this.getPermissionTree()
     }
 
-    setTimeout(() => {
-      console.log("tree", this.permissionTree)
-    }, 2000)
   }
 
   setForm() {
@@ -47,8 +57,13 @@ export class CreateOrEditPermissionConfigComponent extends ComponentBase {
       id: [this.permissionApiInfo?.id],
       path: [this.permissionApiInfo?.path, required()],
       description: [this.permissionApiInfo?.description, required()],
-      permissionKeys: this.fb.array([], requiredArray("Vui lòng thêm ít nhất 1 quyền truy cập cho api")),
+      permissionKeys: this.fb.array([], requiredArray("* Vui lòng thêm ít nhất 1 quyền truy cập cho api")),
     });
+
+
+    if(this.permissionApiInfo?.keyPermissions) {
+      this.setPermissionKeys(this.permissionApiInfo?.keyPermissions)
+    }
 
     if(!this.dataDialog?.id) {
       this.postForm.removeControl('id');
@@ -56,32 +71,42 @@ export class CreateOrEditPermissionConfigComponent extends ComponentBase {
     }
   }
 
-  getPermissionTree() {
-    let handleChildItem = (childData) => {
-      if (childData.children && childData.children.length) {
-        childData.children = childData.children.map(handleChildItem); // Map the children properly
+  handleChildItem = (childData) => {
+    if (childData?.children && childData?.children?.length) {
+      childData.children = this.handleChildItem(childData.children)
+    }
+    childData = childData.map(item => {
+      if(item?.children && item?.children?.length) {
+        item.children =  this.handleChildItem(item.children)
       }
       return {
-        ...childData,
-        key: `${childData?.id}`,
-        label: childData.permissionLabel,
-        data: childData.permissionKey
+        ...item,
+        key: `${item?.id}`,
+        label: item.permissionLabel,
+        data: item.permissionKey
       };
-    };
+    })
+    return childData;
+  };
 
+  handleTree(response) {
+    this.permissionTree = response?.data?.map(item => {
+      if (item?.children && item?.children?.length) {
+        item.children = this.handleChildItem(item.children)
+      }
+      return {
+        ...item,
+        key: `${item?.id}`,
+        label: item.permissionLabel,
+        data: item.permissionKey
+      };
+    });
+  }
+
+  getPermissionTree() {
     this._roleService.getPermissions().subscribe(res => {
       if (this.checkStatusResponse(res)) {
-        this.permissionTree = res?.data?.map(item => {
-          if (item?.children && item.children.length) {
-            item.children = item.children.map(handleChildItem); // Process children here
-          }
-          return {
-            ...item,
-            key: `${item?.id}`,
-            label: item.permissionLabel,
-            data: item.permissionKey
-          };
-        });
+        this.handleTree(res);
       }
     });
   }
@@ -97,9 +122,6 @@ export class CreateOrEditPermissionConfigComponent extends ComponentBase {
   get formRawValue() {
     return this.postForm.getRawValue();
   }
-
-  getDetail() {}
-
   addTerm() {
     let body: any[] = [
       {
@@ -124,7 +146,7 @@ export class CreateOrEditPermissionConfigComponent extends ComponentBase {
         detailGroup = this.fb.group({
           permissionKey: [detail.permissionKey, required()],
           permissionLabel: [detail.permissionLabel, required()],
-          parentId: [detail.parentId],
+          parentId: [detail.parent],
           orderPriority: [detail.orderPriority, required()],
         });
 
@@ -148,13 +170,12 @@ export class CreateOrEditPermissionConfigComponent extends ComponentBase {
         permissionKeys: this.formRawValue.permissionKeys.map(item => {
           return {
             ...item,
-            parentId: item.parentId.id
+            parentId: item.parentId?.key
           }
         })
       }
 
-      console.log("form", this.formRawValue)
-      let api = !this.dataDialog.id ?  this._keyPermissionService.createPermissionApi(body) : this._keyPermissionService.createPermissionApi(body);
+      let api = !this.dataDialog.id ?  this._keyPermissionService.createPermissionApi(body) : this._keyPermissionService.update(body);
       let message = !this.dataDialog.id ?  "Thêm mới thành công" : "Cập nhật thành công";
 
       api.subscribe(res => {

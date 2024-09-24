@@ -1,6 +1,6 @@
 <div class="dialog-wrapper">
   <div class="header flex justify-content-between align-items-center">
-    <h2>Thêm mới</h2>
+    <h2>{{dataDialog.header}}</h2>
     <div (click)="close()"><i class="pi pi-times"></i></div>
   </div>
   <div class="p-1rem dialog-body">
@@ -82,8 +82,11 @@
                             containerStyleClass="w-full" 
                             [showClear]="true"
                             appendTo="body"
-                            />
-                            <!-- class="md:w-20rem w-full custom-disabled"  -->
+                        >
+                          <ng-template let-item pTemplate="default">
+                              <span *ngIf="item.label">{{ item.label }}</span>
+                          </ng-template>
+                        </p-treeSelect>
                         <small *ngIf="isInvalidMessage(permissionKey, 'parentId')" class="p-error">
                             {{ permissionKey.get("parentId").getError("errorMessage") }}
                         </small>

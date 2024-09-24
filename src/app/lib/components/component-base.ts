@@ -124,7 +124,7 @@ export abstract class ComponentBase {
   checkStatusResponse(response, message?: string) {
     if (response?.status === StatusResponseConst.RESPONSE_TRUE) {
       if (message) {
-        this.messageSuccess(message, null, 1000);
+        this.messageSuccess(message, null, 3000);
       } else if (message === undefined) {
         //response?.successFE &&
         // MESSAGE CHUNG CHO CREATE | UPDATE | DELETE KHI KHÔNG TRUYỀN VÀO PARAM MESSAGE

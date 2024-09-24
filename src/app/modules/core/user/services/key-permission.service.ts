@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/app/modules/shared/environments/environment';
-import { IResponseList } from 'src/app/modules/shared/models/response.interface';
+import { IResponseItem, IResponseList } from 'src/app/modules/shared/models/response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +18,16 @@ export class KeyPermissionService {
       { params }
     );
   }
+  
+    getById(id: number):Observable<IResponseItem<any>>{
+      return this.http.get<IResponseItem<any>>(`${this.api}/get-permission-of-api-by-id/${id}`);
+    }
 
   createPermissionApi(body) {
     return this.http.post(`${this.api}/create-permission-for-api`, body);
+  }
+
+  update(body) {
+    return this.http.put(`${this.api}/update-permission-for-api`, body);
   }
 }
